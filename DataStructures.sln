@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures", "DataStructures\DataStructures.csproj", "{1FC4B8C3-6F41-46B9-8E35-5D60C23B6751}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F4B5DA2B-0CB7-4EBE-8AC6-9890E30AF963}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4FCF573C-B863-4258-852F-F810FCC856A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.Tests", "DataStructures.Tests\DataStructures.Tests.csproj", "{7C6A29E2-2BE4-48C0-BEED-613C2E861DAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0193963C-0215-400A-B2B1-150827E97166}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FC4B8C3-6F41-46B9-8E35-5D60C23B6751}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FC4B8C3-6F41-46B9-8E35-5D60C23B6751}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FC4B8C3-6F41-46B9-8E35-5D60C23B6751}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FC4B8C3-6F41-46B9-8E35-5D60C23B6751}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C6A29E2-2BE4-48C0-BEED-613C2E861DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C6A29E2-2BE4-48C0-BEED-613C2E861DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C6A29E2-2BE4-48C0-BEED-613C2E861DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C6A29E2-2BE4-48C0-BEED-613C2E861DAC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1FC4B8C3-6F41-46B9-8E35-5D60C23B6751} = {F4B5DA2B-0CB7-4EBE-8AC6-9890E30AF963}
+		{7C6A29E2-2BE4-48C0-BEED-613C2E861DAC} = {4FCF573C-B863-4258-852F-F810FCC856A4}
+	EndGlobalSection
+EndGlobal
