@@ -136,6 +136,26 @@ namespace DataStructures
             return false;
         }
 
+        public T Min()
+        {
+            if (this.root == null)
+            {
+                throw new InvalidOperationException("Tree is empty");
+            }
+
+            return this.MinInSubTree(this.root).Value;
+        }
+
+        public T Max()
+        {
+            if (this.root == null)
+            {
+                throw new InvalidOperationException("Tree is empty");
+            }
+
+            return this.MaxInSubTree(this.root).Value;
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             return this.PreOrder().GetEnumerator();
@@ -276,6 +296,30 @@ namespace DataStructures
                 }
             }
             while (queue.Count > 0);
+        }
+
+        protected Node<T> MinInSubTree(Node<T> subTree)
+        {
+            Node<T> result = subTree;
+
+            while (result.Left != null)
+            {
+                result = result.Left;
+            }
+
+            return result;
+        }
+
+        protected Node<T> MaxInSubTree(Node<T> subTree)
+        {
+            Node<T> result = subTree;
+
+            while (result.Right != null)
+            {
+                result = result.Right;
+            }
+
+            return result;
         }
     }
 }

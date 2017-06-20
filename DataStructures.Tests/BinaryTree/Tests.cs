@@ -18,43 +18,46 @@ namespace DataStructures.Tests.BinaryTree
         public void Traversal(Scenario scenario)
         {
             BinaryTree<TestItem> tree = (BinaryTree<TestItem>)scenario.List;
-
-            string result = string.Empty;
+            string enumeratorResult = string.Empty;
+            string inOrderResult = string.Empty;
+            string postOrderResult = string.Empty;
+            string breadthFirstResult = string.Empty;
 
             foreach (var item in tree)
             {
-                result += item.StringValue + " ";
+                enumeratorResult += item.StringValue + " ";
             }
-
-            Assert.AreEqual(scenario.ExpectedPreOrder, result);
-
-            result = string.Empty;
 
             foreach (var item in tree.InOrder())
             {
-                result += item.StringValue + " ";
+                inOrderResult += item.StringValue + " ";
             }
-
-            Assert.AreEqual(scenario.ExpectedInOrder, result);
-
-            result = string.Empty;
 
             foreach (var item in tree.PostOrder())
             {
-                result += item.StringValue + " ";
+                postOrderResult += item.StringValue + " ";
             }
-
-            Assert.AreEqual(scenario.ExpectedPostOrder, result);
-
-            result = string.Empty;
 
             foreach (var item in tree.BreadthFirst())
             {
-                result += item.StringValue + " ";
+                breadthFirstResult += item.StringValue + " ";
             }
 
-            Assert.AreEqual(scenario.ExpectedBreadthFirst, result);
+            Assert.AreEqual(scenario.ExpectedPreOrder, enumeratorResult);
+            Assert.AreEqual(scenario.ExpectedInOrder, inOrderResult);
+            Assert.AreEqual(scenario.ExpectedPostOrder, postOrderResult);
+            Assert.AreEqual(scenario.ExpectedBreadthFirst, breadthFirstResult);
         }
 
+        [Test]
+        [Timeout(1000)]
+        [TestCaseSource(typeof(MinMaxGenerator), "Generate")]
+        public void MinMax(MinMaxScenario scenario)
+        {
+            var tree = new BinaryTree<TestItem>(scenario.Initial);
+
+            Assert.AreEqual(scenario.ExpectedMin, tree.Min());
+            Assert.AreEqual(scenario.ExpectedMax, tree.Max());
+        }
     }
 }

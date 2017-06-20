@@ -51,6 +51,8 @@
     <Compile Include="BinaryHeap\TestFactory.cs" />
     <Compile Include="BinaryHeap\Tests.cs" />
     <Compile Include="BinaryTree\Generator.cs" />
+    <Compile Include="BinaryTree\MinMaxGenerator.cs" />
+    <Compile Include="BinaryTree\MinMaxScenario.cs" />
     <Compile Include="BinaryTree\Scenario.cs" />
     <Compile Include="BinaryTree\Tests.cs" />
     <Compile Include="CollectionPerformanceTests.cs" />
