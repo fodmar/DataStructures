@@ -25,6 +25,19 @@ namespace DataStructures
             public Node<T> Parent { get; set; }
             public Node<T> Left { get; set; }
             public Node<T> Right { get; set; }
+
+            public bool IsLeftSon { get { return  this.Parent != null && this.Parent.Left == this; } }
+            public bool IsRightSon { get { return this.Parent != null && this.Parent.Right == this; } }
+
+            public int SonCount
+            { 
+                get
+                {
+                    int left = this.Left == null ? 0 : 1;
+                    int right = this.Right == null ? 0 : 1;
+                    return left + right;
+                }
+            }
         }
 
         protected IEqualityComparer<T> equalityComparer;
@@ -108,32 +121,76 @@ namespace DataStructures
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            Node<T> toRemove = this.FindNode(item);
+
+            if (toRemove == null)
+            {
+                return false;
+            }
+
+            this.Count--;
+
+            int sonCount = toRemove.SonCount;
+
+            if (sonCount == 0)
+            {
+                if (toRemove.IsLeftSon)
+                {
+                    toRemove.Parent.Left = null;
+                }
+                else if (toRemove.IsRightSon)
+                {
+                    toRemove.Parent.Right = null;
+                }
+                else
+                {
+                    this.root = null;
+                }
+            }
+            else if (sonCount == 1)
+            {
+                Node<T> derive = toRemove.Left;
+
+                if (derive == null)
+                {
+                    derive = toRemove.Right;
+                }
+
+                if (toRemove.IsLeftSon)
+                {
+                    toRemove.Parent.Left = derive;
+                }
+                else if (toRemove.IsRightSon)
+                {
+                    toRemove.Parent.Right = derive;
+                }
+                else
+                {
+                    this.root = derive;
+                }
+            }
+            else
+            {
+                Node<T> successor = this.Successor(toRemove);
+
+                toRemove.Value = successor.Value;
+
+                if (successor.IsLeftSon)
+                {
+                    successor.Parent.Left = successor.Right;
+                }
+                else
+                {
+                    successor.Parent.Right = successor.Right;
+                }
+            }
+
+            return true;
         }
 
         public bool Contains(T item)
         {
-            Node<T> current = this.root;
-
-            while (current != null)
-            {
-                int compare = this.comparer.Compare(item, current.Value);
-
-                if (compare == 1)
-                {
-                    current = current.Right;
-                }
-                else if (compare == -1)
-                {
-                    current = current.Left;
-                }
-                else
-                {
-                    return this.equalityComparer.Equals(item, current.Value);
-                }
-            }
-
-            return false;
+            return this.FindNode(item) != null;
         }
 
         public T Min()
@@ -320,6 +377,69 @@ namespace DataStructures
             }
 
             return result;
+        }
+
+        protected Node<T> FindNode(T item)
+        {
+            Node<T> current = this.root;
+
+            while (current != null)
+            {
+                int compare = this.comparer.Compare(item, current.Value);
+
+                if (compare == 1)
+                {
+                    current = current.Right;
+                }
+                else if (compare == -1)
+                {
+                    current = current.Left;
+                }
+                else
+                {
+                    return current;
+                }
+            }
+
+            return null;
+        }
+
+        protected Node<T> Successor(Node<T> node)
+        {
+            if (node.Right != null)
+            {
+                return this.MinInSubTree(node.Right);
+            }
+
+            Node<T> current = node;
+            Node<T> parent = current.Parent;
+
+            while (parent != null && current == parent.Right)
+            {
+                current = parent;
+                parent = parent.Parent;
+            }
+
+            return current;
+        }
+
+        protected Node<T> Predecessor(Node<T> node)
+        {
+            if (node.Left != null)
+            {
+                return this.MaxInSubTree(node.Right);
+            }
+
+            Node<T> current = node;
+            Node<T> parent = current.Parent;
+
+            while (parent != null && current == parent.Left)
+            {
+                current = parent;
+                parent = parent.Parent;
+            }
+
+            return current;
         }
     }
 }
