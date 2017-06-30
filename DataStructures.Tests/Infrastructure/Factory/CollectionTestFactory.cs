@@ -38,5 +38,10 @@ namespace DataStructures.Tests.Infrastructure.Factory
         {
             return CreateScenarios(new ContainsScenarioGenerator());
         }
+
+        public IEnumerable<ScenarioBase> ContainsPerformance()
+        {
+            return CreateScenarios(new ContainsPerformanceScenarioGenerator());
+        }
     }
 }

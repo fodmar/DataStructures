@@ -67,6 +67,8 @@
     <Compile Include="Queue\ScenarioGenerator.cs" />
     <Compile Include="Queue\Tests.cs" />
     <Compile Include="Queue\TestFactory.cs" />
+    <Compile Include="Scenarios\Collection\ContainsPerformanceScenario.cs" />
+    <Compile Include="Scenarios\Collection\ContainsPerformanceScenarioGenerator.cs" />
     <Compile Include="Scenarios\Collection\ContainsScenario.cs" />
     <Compile Include="Scenarios\Collection\ContainsScenarioGenerator.cs" />
     <Compile Include="Scenarios\Collection\RemovePerformanceScenario.cs" />

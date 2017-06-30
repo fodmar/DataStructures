@@ -11,6 +11,7 @@ using DataStructures.Tests.Scenarios.Collection;
 using DataStructures.Tests.Infrastructure.Factory;
 using DataStructures.Tests.Infrastructure;
 using System.Diagnostics;
+using System.Reflection;
 namespace DataStructures.Tests
 {
     [TestFixture]
@@ -30,10 +31,11 @@ namespace DataStructures.Tests
             }
             stopwatch.Stop();
 
-            using (StreamWriter streamWriter = File.AppendText(string.Format("{0}{1}", "AddPerformance", list.GetType().Name)))
-            {
-                streamWriter.WriteLine(string.Format("{0} {1}", scenario.ItemsToAdd.Length, stopwatch.ElapsedMilliseconds));
-            }
+            this.SaveResultsToFile(
+                list.GetType(),
+                MethodBase.GetCurrentMethod().Name,
+                scenario.ItemsToAdd.Length,
+                stopwatch.ElapsedMilliseconds);
         }
 
         [Test]
@@ -50,9 +52,39 @@ namespace DataStructures.Tests
             }
             stopwatch.Stop();
 
-            using (StreamWriter streamWriter = File.AppendText(string.Format("{0}{1}", "RemovePerformance", list.GetType().Name)))
+            this.SaveResultsToFile(
+                list.GetType(),
+                MethodBase.GetCurrentMethod().Name,
+                list.Count,
+                stopwatch.ElapsedMilliseconds);
+        }
+
+        [Test]
+        [TestCaseSource(typeof(CollectionTestFactory), "ContainsPerformance")]
+        [Ignore]
+        public void ContainsPerformance(ContainsPerformanceScenario scenario)
+        {
+            IMyCollection<TestItem> list = (IMyCollection<TestItem>)scenario.List;
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            foreach (var item in scenario.ToFind)
             {
-                streamWriter.WriteLine(string.Format("{0} {1}", scenario.ToRemove.Length, stopwatch.ElapsedMilliseconds));
+                list.Contains(item);
+            }
+            stopwatch.Stop();
+
+            this.SaveResultsToFile(
+                list.GetType(),
+                MethodBase.GetCurrentMethod().Name,
+                list.Count,
+                stopwatch.ElapsedMilliseconds);
+        }
+
+        private void SaveResultsToFile(Type collectionType, string fileName, int elements, long miliseconds)
+        {
+            using (StreamWriter streamWriter = File.AppendText(string.Format("_{0}{1}", fileName, collectionType.Name)))
+            {
+                streamWriter.WriteLine(string.Format("{0} {1}", elements, miliseconds));
             }
         }
     }

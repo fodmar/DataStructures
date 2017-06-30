@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataStructures.Tests.Infrastructure;
 
 namespace DataStructures.Tests.Scenarios.Collection
 {
-    class RemovePerformanceScenarioGenerator : ScenarioGeneratorBase
+    class ContainsPerformanceScenario : ScenarioBase
     {
-        public override IEnumerable<ScenarioBase> Generate()
-        {
-            yield break;
-        }
+        public TestItem[] ToFind { get; set; }
     }
 }
