@@ -56,6 +56,11 @@ namespace DataStructures.Tests.Infrastructure
                     WithoutInitial = () => new BinaryTree<TestItem>(),
                     WithInitial = (initial) => new BinaryTree<TestItem>(initial),
                 },
+                new ConstructorPair
+                {
+                    WithoutInitial = () => new RedBlackTree<TestItem>(),
+                    WithInitial = (initial) => new RedBlackTree<TestItem>(initial),
+                },
             };
 
             return collections.Union(lists).ToArray();

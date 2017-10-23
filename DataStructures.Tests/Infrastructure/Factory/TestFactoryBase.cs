@@ -18,9 +18,11 @@ namespace DataStructures.Tests.Infrastructure.Factory
 
         protected IEnumerable<ScenarioBase> CreateScenarios(ScenarioGeneratorBase generator)
         {
+            IEnumerable<ScenarioBase> scenarios = generator.Generate();
+
             foreach (var constructor in constructors)
             {
-                foreach (var scenario in generator.Generate())
+                foreach (var scenario in scenarios)
                 {
                     if (scenario.Initial == null)
                     {
