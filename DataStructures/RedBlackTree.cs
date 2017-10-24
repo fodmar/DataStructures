@@ -85,17 +85,36 @@ namespace DataStructures
                     this.Color = NodeColor.Black;
                 }
             }
-        }
 
-        public RedBlackTree(T[] initializer) : base()
-        {
-            if (initializer != null)
+            public override bool IsLeftSon
             {
-                for (int i = 0; i < initializer.Length; i++)
+                get
                 {
-                    this.Add(initializer[i]);
+                    if (this.isGuard)
+                    {
+                        return true;
+                    }
+
+                    return base.IsLeftSon;
                 }
             }
+
+            public override bool IsRightSon
+            {
+                get
+                {
+                    if (this.isGuard)
+                    {
+                        return true;
+                    }
+
+                    return base.IsRightSon;
+                }
+            }
+        }
+
+        public RedBlackTree(T[] initializer) : base(initializer)
+        {
         }
 
         public RedBlackTree() : base()
@@ -134,98 +153,139 @@ namespace DataStructures
             }
 
             base.Add(item);
+            RedBlackNode<T> current = this.LastAdded;
 
-            if (this.LastAdded.rbParent.Color == NodeColor.Black)
+            while (current != this.Root && current.rbParent.Color == NodeColor.Red)
             {
-                return;
+                if (current.Parent.IsLeftSon)
+                {
+                    var uncle = current.rbUncle;
+
+                    if (uncle.Color == NodeColor.Red)
+                    {
+                        current = this.FixRedUncleScenario(current);
+                        continue;
+                    }
+
+                    if (current.IsRightSon)
+                    {
+                        this.RotateLeft(current.rbParent);
+                    }
+
+                    current.rbParent.Color = NodeColor.Black;
+                    current.rbParent.rbParent.Color = NodeColor.Red;
+                    this.RotateRight(current.rbParent.rbParent);
+                    break;
+                }
+                else
+                {
+                    var uncle = current.rbUncle;
+
+                    if (uncle.Color == NodeColor.Red)
+                    {
+                        current = this.FixRedUncleScenario(current);
+                        continue;
+                    }
+
+                    if (current.IsLeftSon)
+                    {
+                        this.RotateRight(current.rbParent);
+                    }
+
+                    current.rbParent.Color = NodeColor.Black;
+                    current.rbParent.rbParent.Color = NodeColor.Red;
+                    this.RotateLeft(current.rbParent.rbParent);
+                    break;
+                }
             }
 
-            if (this.LastAdded.rbUncle.Color == NodeColor.Red)
-            {
-                if (this.FixRedUncleScenario(this.LastAdded))
-                {
-                    return;
-                }
-            }
-
-            if (this.LastAdded.rbUncle.Color == NodeColor.Black)
-            {
-                if (this.LastAdded.rbUncle.IsRightSon && this.LastAdded.IsRightSon)
-                {
-                    this.RotateLeft(this.LastAdded);
-                }
-                else if (this.LastAdded.rbUncle.IsLeftSon && this.LastAdded.IsLeftSon)
-                {
-                    this.RotateRight(this.LastAdded);
-                }
-            }
-
-            if (this.LastAdded.rbUncle.Color == NodeColor.Black)
-            {
-                if (this.LastAdded.rbUncle.IsRightSon && this.LastAdded.IsLeftSon)
-                {
-                    this.RotateRight(this.LastAdded.rbParent);
-                }
-                else if (this.LastAdded.rbUncle.IsLeftSon && this.LastAdded.IsRightSon)
-                {
-                    this.RotateLeft(this.LastAdded.rbParent);
-                }
-            }
-
-            this.LastAdded.ToggleColor();
-            this.LastAdded.rbParent.ToggleColor();
+            this.Root.Color = NodeColor.Black;
         }
 
-        protected bool FixRedUncleScenario(RedBlackNode<T> node)
+        protected RedBlackNode<T> FixRedUncleScenario(RedBlackNode<T> current)
         {
-            var grandParent = node.rbParent.rbParent;
-            grandParent.rbLeft.Color = NodeColor.Black;
-            grandParent.rbRight.Color = NodeColor.Black;
+            current.rbParent.Color = NodeColor.Black;
+            current.rbUncle.Color = NodeColor.Black;
 
-            if (grandParent == this.Root)
-            {
-                grandParent.Color = NodeColor.Black;
-                return true;
-            }
-
-            this.LastAdded = grandParent;
-            return false;
+            var grandParent = current.rbParent.rbParent;
+            grandParent.Color = NodeColor.Red;
+            return grandParent;
         }
 
         protected void RotateLeft(RedBlackNode<T> node)
         {
-            var parent = node.Parent;
-            var grandParent = parent.Parent;
-            var leftChild = node.Left;
+            bool wasLeftChild = node.IsLeftSon;
+            var child = node.rbRight;
+            var parent = node.rbParent;
 
-            grandParent.Left = node;
-            node.Parent = grandParent;
+            if (child == this.guard)
+            {
+                return;
+            }
 
-            node.Left = parent;
-            parent.Parent = node;
+            node.Right = child.Left;
+            if (node.rbRight != this.guard)
+            {
+                node.Right.Parent = node;
+            }
 
-            parent.Right = leftChild;
-            leftChild.Parent = parent;
+            child.Left = node;
+            node.Parent = child;
+            child.Parent = parent;
 
-            this.LastAdded = (RedBlackNode<T>)parent;
+            if (parent != this.guard)
+            {
+                if (wasLeftChild)
+                {
+                    parent.Left = child;
+                }
+                else
+                {
+                    parent.Right = child;
+                }
+            }
+            else
+            {
+                this.root = child;
+            }
         }
 
         protected void RotateRight(RedBlackNode<T> node)
         {
-            var parent = node.Parent;
-            var grandParent = parent.Parent;
-            var rightChild = node.Right;
+            bool wasLeftChild = node.IsLeftSon;
+            var child = node.rbLeft;
+            var parent = node.rbParent;
 
-            grandParent.Right = node;
-            node.Parent = grandParent;
+            if (child == this.guard)
+            {
+                return;
+            }
 
-            node.Right = parent;
-            parent.Parent = node;
+            node.Left = child.Right;
+            if (node.rbLeft != this.guard)
+            {
+                node.Left.Parent = node;
+            }
 
-            parent.Left = rightChild;
-            rightChild.Parent = parent;
+            child.Right = node;
+            child.Parent = parent;
+            node.Parent = child;
 
-            this.LastAdded = (RedBlackNode<T>)parent;
+            if (parent != this.guard)
+            {
+                if (wasLeftChild)
+                {
+                    parent.Left = child;
+                }
+                else
+                {
+                    parent.Right = child;
+                }
+            }
+            else
+            {
+                this.root = child;
+            }
         }
     }
 }
