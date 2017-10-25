@@ -73,44 +73,6 @@ namespace DataStructures
                     return uncle ?? this.guard;
                 } 
             }
-
-            public void ToggleColor()
-            {
-                if (this.Color == NodeColor.Black)
-                {
-                    this.Color = NodeColor.Red;
-                }
-                else
-                {
-                    this.Color = NodeColor.Black;
-                }
-            }
-
-            public override bool IsLeftSon
-            {
-                get
-                {
-                    if (this.isGuard)
-                    {
-                        return true;
-                    }
-
-                    return base.IsLeftSon;
-                }
-            }
-
-            public override bool IsRightSon
-            {
-                get
-                {
-                    if (this.isGuard)
-                    {
-                        return true;
-                    }
-
-                    return base.IsRightSon;
-                }
-            }
         }
 
         public RedBlackTree(T[] initializer) : base(initializer)
@@ -157,46 +119,36 @@ namespace DataStructures
 
             while (current != this.Root && current.rbParent.Color == NodeColor.Red)
             {
+                if (current.rbUncle.Color == NodeColor.Red)
+                {
+                    current = this.FixRedUncleScenario(current);
+                    continue;
+                }
+
                 if (current.Parent.IsLeftSon)
                 {
-                    var uncle = current.rbUncle;
-
-                    if (uncle.Color == NodeColor.Red)
-                    {
-                        current = this.FixRedUncleScenario(current);
-                        continue;
-                    }
-
                     if (current.IsRightSon)
                     {
-                        this.RotateLeft(current.rbParent);
+                        current = current.rbParent;
+                        this.RotateLeft(current);
                     }
 
-                    current.rbParent.Color = NodeColor.Black;
-                    current.rbParent.rbParent.Color = NodeColor.Red;
+                    this.ColorParentAndGrandParent(current);
                     this.RotateRight(current.rbParent.rbParent);
-                    break;
                 }
                 else
                 {
-                    var uncle = current.rbUncle;
-
-                    if (uncle.Color == NodeColor.Red)
-                    {
-                        current = this.FixRedUncleScenario(current);
-                        continue;
-                    }
-
                     if (current.IsLeftSon)
                     {
+                        current = current.rbParent;
                         this.RotateRight(current.rbParent);
                     }
 
-                    current.rbParent.Color = NodeColor.Black;
-                    current.rbParent.rbParent.Color = NodeColor.Red;
+                    this.ColorParentAndGrandParent(current);
                     this.RotateLeft(current.rbParent.rbParent);
-                    break;
                 }
+
+                break;
             }
 
             this.Root.Color = NodeColor.Black;
@@ -210,6 +162,12 @@ namespace DataStructures
             var grandParent = current.rbParent.rbParent;
             grandParent.Color = NodeColor.Red;
             return grandParent;
+        }
+
+        protected void ColorParentAndGrandParent(RedBlackNode<T> node)
+        {
+            node.rbParent.Color = NodeColor.Black;
+            node.rbParent.rbParent.Color = NodeColor.Red;
         }
 
         protected void RotateLeft(RedBlackNode<T> node)
