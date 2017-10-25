@@ -16,61 +16,44 @@ namespace DataStructures
 
         protected class RedBlackNode<T> : Node<T>
         {
-            private readonly RedBlackNode<T> guard;
+            public static RedBlackNode<T> Guard = new RedBlackNode<T>();
             private readonly bool isGuard;
 
-            public RedBlackNode() : base(default(T))
+            private RedBlackNode() : base(default(T))
             {
                 this.isGuard = true;
-                this.color = NodeColor.Black;
+                this.Color = NodeColor.Black;
             }
 
-            public RedBlackNode(T item, RedBlackNode<T> guard) : base(item)
+            public RedBlackNode(T item) : base(item)
             {
-                this.guard = guard;
             }
 
-            public RedBlackNode(T item, Node<T> parent, RedBlackNode<T> guard)
+            public RedBlackNode(T item, Node<T> parent)
                 : base(item, parent)
             {
-                this.guard = guard;
             }
 
-            private NodeColor color;
-            public NodeColor Color
-            {
-                get { return this.color; } 
-                set
-                {
-                    this.color = value;
+            public NodeColor Color { get; set; }
 
-                    if (this.isGuard)
-                    {
-                        this.color = NodeColor.Black;
-                    }
-                }
-            }
-
-            public RedBlackNode<T> rbParent { get { return this.Parent as RedBlackNode<T> ?? guard; } }
-            public RedBlackNode<T> rbRight { get { return this.Right as RedBlackNode<T> ?? guard; } }
-            public RedBlackNode<T> rbLeft { get { return this.Left as RedBlackNode<T> ?? guard; } }
+            public RedBlackNode<T> rbParent { get { return this.Parent as RedBlackNode<T> ?? Guard; } }
+            public RedBlackNode<T> rbRight { get { return this.Right as RedBlackNode<T> ?? Guard; } }
+            public RedBlackNode<T> rbLeft { get { return this.Left as RedBlackNode<T> ?? Guard; } }
 
             public RedBlackNode<T> rbUncle
             {
                 get
                 {
-                    RedBlackNode<T> uncle = null;
-
                     if (this.Parent.IsLeftSon)
                     {
-                        uncle = this.rbParent.rbParent.rbRight;
+                        return this.rbParent.rbParent.rbRight;
                     }
                     else if (this.Parent.IsRightSon)
                     {
-                        uncle = this.rbParent.rbParent.rbLeft;
+                        return this.rbParent.rbParent.rbLeft;
                     }
 
-                    return uncle ?? this.guard;
+                    return Guard;
                 } 
             }
         }
@@ -88,17 +71,15 @@ namespace DataStructures
             get { return this.root as RedBlackNode<T>; }
         }
 
-        protected RedBlackNode<T> guard;
-
         protected override Node<T> CreateNode(T item)
         {
-            this.LastAdded = new RedBlackNode<T>(item, this.guard);
+            this.LastAdded = new RedBlackNode<T>(item);
             return this.LastAdded;
         }
 
         protected override Node<T> CreateNode(T item, Node<T> parent)
         {
-            this.LastAdded = new RedBlackNode<T>(item, parent, this.guard);
+            this.LastAdded = new RedBlackNode<T>(item, parent);
             return this.LastAdded;
         }
 
@@ -106,14 +87,6 @@ namespace DataStructures
 
         public override void Add(T item)
         {
-            if (this.Root == null)
-            {
-                this.guard = new RedBlackNode<T>();
-                base.Add(item);
-                this.Root.Color = NodeColor.Black;
-                return;
-            }
-
             base.Add(item);
             RedBlackNode<T> current = this.LastAdded;
 
@@ -176,13 +149,13 @@ namespace DataStructures
             var child = node.rbRight;
             var parent = node.rbParent;
 
-            if (child == this.guard)
+            if (child == RedBlackNode<T>.Guard)
             {
                 return;
             }
 
             node.Right = child.Left;
-            if (node.rbRight != this.guard)
+            if (node.rbRight != RedBlackNode<T>.Guard)
             {
                 node.Right.Parent = node;
             }
@@ -191,7 +164,7 @@ namespace DataStructures
             node.Parent = child;
             child.Parent = parent;
 
-            if (parent != this.guard)
+            if (parent != RedBlackNode<T>.Guard)
             {
                 if (wasLeftChild)
                 {
@@ -214,13 +187,13 @@ namespace DataStructures
             var child = node.rbLeft;
             var parent = node.rbParent;
 
-            if (child == this.guard)
+            if (child == RedBlackNode<T>.Guard)
             {
                 return;
             }
 
             node.Left = child.Right;
-            if (node.rbLeft != this.guard)
+            if (node.rbLeft != RedBlackNode<T>.Guard)
             {
                 node.Left.Parent = node;
             }
@@ -229,7 +202,7 @@ namespace DataStructures
             child.Parent = parent;
             node.Parent = child;
 
-            if (parent != this.guard)
+            if (parent != RedBlackNode<T>.Guard)
             {
                 if (wasLeftChild)
                 {
