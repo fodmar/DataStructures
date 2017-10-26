@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace DataStructures.Tests.Infrastructure
 {
@@ -121,6 +117,34 @@ namespace DataStructures.Tests.Infrastructure
                     WithInitial = (initial) => new MyStack<TestItem>(initial),
                 },
             };
+        }
+
+        public static ConstructorPair[] GetBinaryTree()
+        {
+            return new ConstructorPair[]
+            {
+                new ConstructorPair
+                {
+                    WithoutInitial = () => new BinaryTree<TestItem>(),
+                    WithInitial = (initial) => new BinaryTree<TestItem>(initial),
+                }
+            };
+        }
+
+        public static ConstructorPair[] GetAllBinaryTrees()
+        {
+            var binaryTree = GetBinaryTree();
+
+            var binaryTrees = new ConstructorPair[]
+            {
+                new ConstructorPair
+                {
+                    WithoutInitial = () => new RedBlackTree<TestItem>(),
+                    WithInitial = (initial) => new RedBlackTree<TestItem>(initial),
+                },
+            };
+
+            return binaryTrees.Union(binaryTree).ToArray();
         }
     }
 }

@@ -10,12 +10,15 @@ using NUnit.Framework;
 namespace DataStructures.Tests.BinaryTree
 {
     [TestFixture]
-    class Tests
+    class Tests : TestsClass
     {
+        static object TraversalTests = Prepare(DataStructuresFactory.GetBinaryTree(), new TraversalGenerator());
+        static object MinMaxTests = Prepare(DataStructuresFactory.GetAllBinaryTrees(), new MinMaxGenerator());
+
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(Generator), "Generate")]
-        public void Traversal(Scenario scenario)
+        [TestCaseSource("TraversalTests")]
+        public void Traversal(TraversalScenario scenario)
         {
             BinaryTree<TestItem> tree = (BinaryTree<TestItem>)scenario.List;
             string enumeratorResult = string.Empty;
@@ -51,10 +54,10 @@ namespace DataStructures.Tests.BinaryTree
 
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(MinMaxGenerator), "Generate")]
+        [TestCaseSource("MinMaxTests")]
         public void MinMax(MinMaxScenario scenario)
         {
-            var tree = new BinaryTree<TestItem>(scenario.Initial);
+            var tree = (BinaryTree<TestItem>)scenario.List;
 
             Assert.AreEqual(scenario.ExpectedMin, tree.Min());
             Assert.AreEqual(scenario.ExpectedMax, tree.Max());

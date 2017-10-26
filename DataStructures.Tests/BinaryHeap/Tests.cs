@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit;
-using NUnit.Framework;
-using DataStructures.Tests.Scenarios.Collection;
+﻿using NUnit.Framework;
 using DataStructures.Tests.Infrastructure;
-using DataStructures.Tests.Infrastructure.Factory;
 
 namespace DataStructures.Tests.BinaryHeap
 {
     [TestFixture]
-    class Tests
+    class Tests : TestsClass
     {
+        static object PopTests = Prepare(DataStructuresFactory.GetBinaryHeaps(), new PopScenarioGenerator());
+        static object AddTests = Prepare(DataStructuresFactory.GetBinaryHeaps(), new AddScenarioGenerator());
+        static object RemoveTests = Prepare(DataStructuresFactory.GetBinaryHeaps(), new RemoveScenarioGenerator());
+
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(TestFactory), "Pop")]
+        [TestCaseSource("PopTests")]
         public void Pop(PopScenario scenario)
         {
             var heap = (MyBinaryHeap<TestItem>)scenario.List;
@@ -32,7 +28,7 @@ namespace DataStructures.Tests.BinaryHeap
 
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(TestFactory), "Add")]
+        [TestCaseSource("AddTests")]
         public void Add(AddScenario scenario)
         {
             var heap = (MyBinaryHeap<TestItem>)scenario.List;
@@ -48,7 +44,7 @@ namespace DataStructures.Tests.BinaryHeap
 
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(TestFactory), "Remove")]
+        [TestCaseSource("RemoveTests")]
         public void Remove(RemoveScenario scenario)
         {
             var heap = (MyBinaryHeap<TestItem>)scenario.List;

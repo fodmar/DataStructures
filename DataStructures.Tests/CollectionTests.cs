@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using DataStructures.Tests.Scenarios.Collection;
 using DataStructures.Tests.Infrastructure;
-using DataStructures.Tests.Infrastructure.Factory;
 
 namespace DataStructures.Tests
 {
     [TestFixture]
-    class CollectionTests
+    class CollectionTests : TestsClass
     {
+        static object AddTests = Prepare(DataStructuresFactory.GetCollections(), new AddScenarioGenerator());
+        static object RemoveTests = Prepare(DataStructuresFactory.GetCollections(), new RemoveScenarioGenerator());
+        static object ContainsTests = Prepare(DataStructuresFactory.GetCollections(), new ContainsScenarioGenerator());
+
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(CollectionTestFactory), "Add")]
+        [TestCaseSource("AddTests")]
         public void Add(AddScenario scenario)
         {
             IMyCollection<TestItem> list = (IMyCollection<TestItem>)scenario.List;
@@ -31,7 +28,7 @@ namespace DataStructures.Tests
 
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(CollectionTestFactory), "Remove")]
+        [TestCaseSource("RemoveTests")]
         public void Remove(RemoveScenario scenario)
         {
             IMyCollection<TestItem> list = (IMyCollection<TestItem>)scenario.List;
@@ -44,7 +41,7 @@ namespace DataStructures.Tests
 
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(CollectionTestFactory), "Contains")]
+        [TestCaseSource("ContainsTests")]
         public void Contains(ContainsScenario scenario)
         {
             IMyCollection<TestItem> list = (IMyCollection<TestItem>)scenario.List;

@@ -1,24 +1,19 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using NUnit;
-using NUnit.Framework;
-using DataStructures;
-using DataStructures.Tests;
+﻿using NUnit.Framework;
 using DataStructures.Tests.Scenarios.Collection;
-using DataStructures.Tests.Infrastructure.Factory;
 using DataStructures.Tests.Infrastructure;
 using System.Diagnostics;
 using System.Reflection;
 namespace DataStructures.Tests
 {
     [TestFixture]
-    class CollectionPerformanceTests
+    class CollectionPerformanceTests : TestsClass
     {
+        static object AddTests = Prepare(DataStructuresFactory.GetCollections(), new AddPerformanceScenarioGenerator());
+        static object RemoveTests = Prepare(DataStructuresFactory.GetCollections(), new RemovePerformanceScenarioGenerator());
+        static object ContainsTests = Prepare(DataStructuresFactory.GetCollections(), new ContainsPerformanceScenarioGenerator());
+
         [Test]
-        [TestCaseSource(typeof(CollectionTestFactory), "AddPerformance")]
+        [TestCaseSource("AddTests")]
         [Ignore]
         public void AddPerformance(AddScenario scenario)
         {
@@ -39,7 +34,7 @@ namespace DataStructures.Tests
         }
 
         [Test]
-        [TestCaseSource(typeof(CollectionTestFactory), "RemovePerformance")]
+        [TestCaseSource("RemoveTests")]
         [Ignore]
         public void RemovePerformance(RemovePerformanceScenario scenario)
         {
@@ -60,7 +55,7 @@ namespace DataStructures.Tests
         }
 
         [Test]
-        [TestCaseSource(typeof(CollectionTestFactory), "ContainsPerformance")]
+        [TestCaseSource("ContainsTests")]
         [Ignore]
         public void ContainsPerformance(ContainsPerformanceScenario scenario)
         {
@@ -78,14 +73,6 @@ namespace DataStructures.Tests
                 MethodBase.GetCurrentMethod().Name,
                 list.Count,
                 stopwatch.ElapsedMilliseconds);
-        }
-
-        private void SaveResultsToFile(Type collectionType, string fileName, int elements, long miliseconds)
-        {
-            using (StreamWriter streamWriter = File.AppendText(string.Format("_{0}{1}", fileName, collectionType.Name)))
-            {
-                streamWriter.WriteLine(string.Format("{0} {1}", elements, miliseconds));
-            }
         }
     }
 }

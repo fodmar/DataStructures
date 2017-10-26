@@ -48,25 +48,20 @@
     <Compile Include="BinaryHeap\PopScenarioGenerator.cs" />
     <Compile Include="BinaryHeap\RemoveScenario.cs" />
     <Compile Include="BinaryHeap\RemoveScenarioGenerator.cs" />
-    <Compile Include="BinaryHeap\TestFactory.cs" />
     <Compile Include="BinaryHeap\Tests.cs" />
-    <Compile Include="BinaryTree\Generator.cs" />
+    <Compile Include="BinaryTree\TraversalGenerator.cs" />
     <Compile Include="BinaryTree\MinMaxGenerator.cs" />
     <Compile Include="BinaryTree\MinMaxScenario.cs" />
-    <Compile Include="BinaryTree\Scenario.cs" />
+    <Compile Include="BinaryTree\TraversalScenario.cs" />
     <Compile Include="BinaryTree\Tests.cs" />
     <Compile Include="CollectionPerformanceTests.cs" />
     <Compile Include="EnumerableTests.cs" />
     <Compile Include="Miscellaneous\EnumeratorTests.cs" />
     <Compile Include="Infrastructure\DataStructuresFactory.cs" />
-    <Compile Include="Infrastructure\Factory\CollectionTestFactory.cs" />
-    <Compile Include="Infrastructure\Factory\EnumerableTestFactory.cs" />
-    <Compile Include="Infrastructure\Factory\TestFactoryBase.cs" />
     <Compile Include="Infrastructure\TestItemComparer.cs" />
     <Compile Include="Queue\Scenario.cs" />
     <Compile Include="Queue\ScenarioGenerator.cs" />
     <Compile Include="Queue\Tests.cs" />
-    <Compile Include="Queue\TestFactory.cs" />
     <Compile Include="Scenarios\Collection\ContainsPerformanceScenario.cs" />
     <Compile Include="Scenarios\Collection\ContainsPerformanceScenarioGenerator.cs" />
     <Compile Include="Scenarios\Collection\ContainsScenario.cs" />
@@ -94,14 +89,13 @@
     <Compile Include="Scenarios\List\IndexOfScenario.cs" />
     <Compile Include="Scenarios\List\IndexerScenarioGenerator.cs" />
     <Compile Include="Scenarios\List\IndexerScenario.cs" />
-    <Compile Include="Infrastructure\Factory\ListTestFactory.cs" />
     <Compile Include="Scenarios\List\RemoveAtScenarioGenerator.cs" />
     <Compile Include="Scenarios\List\RemoveAtScenario.cs" />
     <Compile Include="CollectionTests.cs" />
     <Compile Include="Stack\Scenario.cs" />
     <Compile Include="Stack\ScenarioGenerator.cs" />
-    <Compile Include="Stack\TestFactory.cs" />
     <Compile Include="Stack\Tests.cs" />
+    <Compile Include="TestsClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

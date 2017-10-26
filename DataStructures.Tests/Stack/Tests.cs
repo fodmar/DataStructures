@@ -9,10 +9,13 @@ using NUnit.Framework;
 namespace DataStructures.Tests.Stack
 {
     [TestFixture]
-    class Tests
+    class Tests : TestsClass
     {
+        static object StackTests = Prepare(DataStructuresFactory.GetStacks(), new ScenarioGenerator());
+
         [Test]
-        [TestCaseSource(typeof(TestFactory), "Stack")]
+        [Timeout(1000)]
+        [TestCaseSource("StackTests")]
         public void Stack(Scenario scenario)
         {
             var stack = (MyStack<TestItem>)scenario.List;

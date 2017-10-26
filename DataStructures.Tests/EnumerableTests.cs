@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using DataStructures.Tests.Scenarios.Enumerable;
 using DataStructures.Tests.Infrastructure;
-using DataStructures.Tests.Infrastructure.Factory;
 
 namespace DataStructures.Tests
 {
     [TestFixture]
-    class EnumerableTests
+    class EnumerableTests : TestsClass
     {
+        static object ForeachTests = Prepare(DataStructuresFactory.GetEnumerables(), new ForeachScenarioGenerator());
+
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(EnumerableTestFactory), "Foreach")]
+        [TestCaseSource("ForeachTests")]
         public void Foreach(ForeachScenario scenario)
         {
             IMyEnumerable<TestItem> list = scenario.List;

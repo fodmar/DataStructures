@@ -7,7 +7,7 @@ using DataStructures.Tests.Scenarios;
 
 namespace DataStructures.Tests.BinaryTree
 {
-    class Scenario : ScenarioBase
+    class TraversalScenario : ScenarioBase
     {
         public string ExpectedPreOrder { get; set; }
 

@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit;
-using NUnit.Framework;
-using DataStructures;
-using DataStructures.Tests.Scenarios.Collection;
+﻿using NUnit.Framework;
 using DataStructures.Tests.Infrastructure;
-using DataStructures.Tests.Infrastructure.Factory;
 
 namespace DataStructures.Tests.Queue
 {
     [TestFixture]
-    class Tests
+    class Tests : TestsClass
     {
+        static object QueueTests = Prepare(DataStructuresFactory.GetQueues(), new ScenarioGenerator());
+
         [Test]
-        [TestCaseSource(typeof(TestFactory), "Queue")]
+        [Timeout(1000)]
+        [TestCaseSource("QueueTests")]
         public void Queue(Scenario scenario)
         {
             var queue = (MyQueue<TestItem>)scenario.List;

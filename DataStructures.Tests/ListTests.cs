@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit;
 using NUnit.Framework;
 using DataStructures.Tests.Scenarios.List;
 using DataStructures.Tests.Infrastructure;
-using DataStructures.Tests.Infrastructure.Factory;
 
 namespace DataStructures.Tests
 {
     [TestFixture]
-    class ListTests
+    class ListTests : TestsClass
     {
+        static object IndexerTests = Prepare(DataStructuresFactory.GetLists(), new IndexerScenarioGenerator());
+        static object IndexOfTests = Prepare(DataStructuresFactory.GetLists(), new IndexOfScenarioGenerator());
+        static object RemoveAtTests = Prepare(DataStructuresFactory.GetLists(), new RemoveAtScenarioGenerator());
+        static object InsertTests = Prepare(DataStructuresFactory.GetLists(), new InsertTestGenerator());
+
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(ListTestFactory), "IndexerGet")]
+        [TestCaseSource("IndexerTests")]
         public void Indexer(IndexerScenario scenario)
         {
             IMyList<TestItem> list = (IMyList<TestItem>)scenario.List;
@@ -39,7 +38,7 @@ namespace DataStructures.Tests
 
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(ListTestFactory), "IndexOf")]
+        [TestCaseSource("IndexOfTests")]
         public void IndexOf(IndexOfScenario scenario)
         {
             IMyList<TestItem> list = (IMyList<TestItem>)scenario.List;
@@ -52,7 +51,7 @@ namespace DataStructures.Tests
 
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(ListTestFactory), "RemoveAt")]
+        [TestCaseSource("RemoveAtTests")]
         public void RemoveAt(RemoveAtScenario scenario)
         {
             IMyList<TestItem> list = (IMyList<TestItem>)scenario.List;
@@ -77,7 +76,7 @@ namespace DataStructures.Tests
 
         [Test]
         [Timeout(1000)]
-        [TestCaseSource(typeof(ListTestFactory), "Insert")]
+        [TestCaseSource("InsertTests")]
         public void Insert(InsertScenario scenario)
         {
             IMyList<TestItem> list = (IMyList<TestItem>)scenario.List;

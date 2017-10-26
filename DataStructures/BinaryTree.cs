@@ -8,41 +8,9 @@ namespace DataStructures
 {
     public class BinaryTree<T> : IMyCollection<T>
     {
-        protected class Node<T>
-        {
-            public Node(T item)
-            {
-                this.Value = item;
-            }
-
-            public Node(T item, Node<T> parent)
-            {
-                this.Value = item;
-                this.Parent = parent;
-            }
-
-            public T Value { get; set; }
-            public Node<T> Parent { get; set; }
-            public Node<T> Left { get; set; }
-            public Node<T> Right { get; set; }
-
-            public bool IsLeftSon { get { return  this.Parent != null && this.Parent.Left == this; } }
-            public bool IsRightSon { get { return this.Parent != null && this.Parent.Right == this; } }
-
-            public int SonCount
-            { 
-                get
-                {
-                    int left = this.Left == null ? 0 : 1;
-                    int right = this.Right == null ? 0 : 1;
-                    return left + right;
-                }
-            }
-        }
-
         protected IEqualityComparer<T> equalityComparer;
         protected IComparer<T> comparer;
-        protected Node<T> root;
+        protected TreeNode<T> root;
 
         public BinaryTree(T[] initializer)
         {
@@ -67,14 +35,14 @@ namespace DataStructures
             return this.comparer.Compare(a, b) == 1;
         }
 
-        protected virtual Node<T> CreateNode(T item)
+        protected virtual TreeNode<T> CreateNode(T item)
         {
-            return new Node<T>(item);
+            return new TreeNode<T>(item);
         }
 
-        protected virtual Node<T> CreateNode(T item, Node<T> parent)
+        protected virtual TreeNode<T> CreateNode(T item, TreeNode<T> parent)
         {
-            return new Node<T>(item, parent);
+            return new TreeNode<T>(item, parent);
         }
 
         public int Count { get; private set; }
@@ -89,8 +57,8 @@ namespace DataStructures
                 return;
             }
 
-            Node<T> parent = null;
-            Node<T> currentNode = this.root;
+            TreeNode<T> parent = null;
+            TreeNode<T> currentNode = this.root;
             bool isGreater;
 
             do
@@ -121,7 +89,7 @@ namespace DataStructures
 
         public bool Remove(T item)
         {
-            Node<T> toRemove = this.FindNode(item);
+            TreeNode<T> toRemove = this.FindNode(item);
 
             if (toRemove == null)
             {
@@ -149,7 +117,7 @@ namespace DataStructures
             }
             else if (sonCount == 1)
             {
-                Node<T> derive = toRemove.Left;
+                TreeNode<T> derive = toRemove.Left;
 
                 if (derive == null)
                 {
@@ -171,7 +139,7 @@ namespace DataStructures
             }
             else
             {
-                Node<T> successor = this.Successor(toRemove);
+                TreeNode<T> successor = this.Successor(toRemove);
 
                 toRemove.Value = successor.Value;
 
@@ -225,13 +193,13 @@ namespace DataStructures
                 yield break;
             }
 
-            MyStack<Node<T>> stack = new MyStack<Node<T>>();
+            MyStack<TreeNode<T>> stack = new MyStack<TreeNode<T>>();
 
             stack.Push(this.root);
 
             while (stack.Count > 0)
             {
-                Node<T> current = stack.Pop();
+                TreeNode<T> current = stack.Pop();
 
                 yield return current.Value;
 
@@ -254,9 +222,9 @@ namespace DataStructures
                 yield break;
 	         }
 
-            MyStack<Node<T>> stack = new MyStack<Node<T>>();
+            MyStack<TreeNode<T>> stack = new MyStack<TreeNode<T>>();
 
-            Node<T> current = this.root;
+            TreeNode<T> current = this.root;
 
             do
             {
@@ -284,10 +252,10 @@ namespace DataStructures
                 yield break;
             }
 
-            MyStack<Node<T>> stack = new MyStack<Node<T>>();
+            MyStack<TreeNode<T>> stack = new MyStack<TreeNode<T>>();
 
-            Node<T> current = null;
-            Node<T> parent = null;
+            TreeNode<T> current = null;
+            TreeNode<T> parent = null;
 
             stack.Push(this.root);
 
@@ -331,8 +299,8 @@ namespace DataStructures
                 yield break;
             }
 
-            MyQueue<Node<T>> queue = new MyQueue<Node<T>>();
-            Node<T> current = this.root;
+            MyQueue<TreeNode<T>> queue = new MyQueue<TreeNode<T>>();
+            TreeNode<T> current = this.root;
 
             queue.Enqueue(current);
 
@@ -355,9 +323,9 @@ namespace DataStructures
             while (queue.Count > 0);
         }
 
-        protected Node<T> MinInSubTree(Node<T> subTree)
+        protected TreeNode<T> MinInSubTree(TreeNode<T> subTree)
         {
-            Node<T> result = subTree;
+            TreeNode<T> result = subTree;
 
             while (result.Left != null)
             {
@@ -367,9 +335,9 @@ namespace DataStructures
             return result;
         }
 
-        protected Node<T> MaxInSubTree(Node<T> subTree)
+        protected TreeNode<T> MaxInSubTree(TreeNode<T> subTree)
         {
-            Node<T> result = subTree;
+            TreeNode<T> result = subTree;
 
             while (result.Right != null)
             {
@@ -379,9 +347,9 @@ namespace DataStructures
             return result;
         }
 
-        protected Node<T> FindNode(T item)
+        protected TreeNode<T> FindNode(T item)
         {
-            Node<T> current = this.root;
+            TreeNode<T> current = this.root;
 
             while (current != null)
             {
@@ -404,15 +372,15 @@ namespace DataStructures
             return null;
         }
 
-        protected Node<T> Successor(Node<T> node)
+        protected TreeNode<T> Successor(TreeNode<T> node)
         {
             if (node.Right != null)
             {
                 return this.MinInSubTree(node.Right);
             }
 
-            Node<T> current = node;
-            Node<T> parent = current.Parent;
+            TreeNode<T> current = node;
+            TreeNode<T> parent = current.Parent;
 
             while (parent != null && current == parent.Right)
             {
@@ -423,15 +391,15 @@ namespace DataStructures
             return current;
         }
 
-        protected Node<T> Predecessor(Node<T> node)
+        protected TreeNode<T> Predecessor(TreeNode<T> node)
         {
             if (node.Left != null)
             {
                 return this.MaxInSubTree(node.Right);
             }
 
-            Node<T> current = node;
-            Node<T> parent = current.Parent;
+            TreeNode<T> current = node;
+            TreeNode<T> parent = current.Parent;
 
             while (parent != null && current == parent.Left)
             {
