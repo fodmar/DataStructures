@@ -19,7 +19,7 @@ namespace DataStructures
 
         object System.Collections.IEnumerator.Current
         {
-            get { throw new InvalidOperationException("Nothing to enumerate"); }
+            get { return this.Current; }
         }
 
         public bool MoveNext()

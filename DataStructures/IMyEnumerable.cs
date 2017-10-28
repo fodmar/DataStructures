@@ -9,8 +9,6 @@ namespace DataStructures
 {
     public interface IMyEnumerable<T>
     {
-        int Count { get; }
-
         IEnumerator<T> GetEnumerator();
     }
 }

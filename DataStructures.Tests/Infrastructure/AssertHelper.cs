@@ -13,12 +13,15 @@ namespace DataStructures.Tests.Infrastructure
     {
         public static void AreCollectionSame(TestItem[] expected, IMyEnumerable<TestItem> actual)
         {
-            Assert.AreEqual(expected.Length, actual.Count);
+            int count = 0;
 
             foreach (var item in actual)
             {
+                count++;
                 Assert.That(expected.Contains(item));
             }
+
+            Assert.AreEqual(expected.Length, count);
         }
     }
 }
