@@ -47,7 +47,7 @@ namespace DataStructures
         public T Tail { get { return this.last.Value; } }
         public int Count { get; private set; }
 
-        public void Add(T item)
+        public bool Add(T item)
         {
             Node<T> newNode = new Node<T>(item);
 
@@ -66,6 +66,7 @@ namespace DataStructures
             }
 
             this.Count++;
+            return true;
         }
 
         public bool Remove(T item)

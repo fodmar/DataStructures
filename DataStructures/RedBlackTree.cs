@@ -35,7 +35,7 @@ namespace DataStructures
 
         protected RedBlackTreeNode<T> LastAdded { get; set; }
 
-        public override void Add(T item)
+        public override bool Add(T item)
         {
             base.Add(item);
             RedBlackTreeNode<T> current = this.LastAdded;
@@ -75,6 +75,7 @@ namespace DataStructures
             }
 
             this.Root.Color = NodeColor.Black;
+            return true;
         }
 
         protected RedBlackTreeNode<T> FixRedUncleScenario(RedBlackTreeNode<T> current)

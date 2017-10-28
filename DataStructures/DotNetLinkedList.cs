@@ -16,9 +16,10 @@ namespace DataStructures
         {
         }
 
-        public void Add(T item)
+        public bool Add(T item)
         {
             base.AddLast(item);
+            return true;
         }
 
         public new IEnumerator<T> GetEnumerator()

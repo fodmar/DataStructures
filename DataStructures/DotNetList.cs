@@ -16,6 +16,11 @@ namespace DataStructures
         {
         }
 
+        public bool Add(T item)
+        {
+            return true;
+        }
+
         public new IEnumerator<T> GetEnumerator()
         {
             return base.GetEnumerator();

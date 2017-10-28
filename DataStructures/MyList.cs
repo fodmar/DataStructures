@@ -67,12 +67,12 @@ namespace DataStructures
             }
         }
 
-        public void Add(T item)
+        public bool Add(T item)
         {
             if (this.Count < this.allocated)
             {
                 this.array[this.Count++] = item;
-                return;
+                return true;
             }
 
             this.allocated *= 2;
@@ -85,6 +85,7 @@ namespace DataStructures
 
             temp[this.Count++] = item;
             this.array = temp;
+            return true;
         }
 
         public bool Remove(T item)

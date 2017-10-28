@@ -10,7 +10,7 @@ namespace DataStructures
     {
         int Count { get; }
 
-        void Add(T item);
+        bool Add(T item);
         bool Remove(T item);
         bool Contains(T item);
     }

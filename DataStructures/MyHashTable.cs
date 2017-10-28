@@ -31,7 +31,7 @@ namespace DataStructures
 
         public int Count { get; private set; }
 
-        public void Add(T item)
+        public bool Add(T item)
         {
             int bucket = this.CalculateHash(item);
 
@@ -40,8 +40,9 @@ namespace DataStructures
                 this.buckets[bucket] = new MyList<T>();
             }
 
-            this.Count++;
             this.buckets[bucket].Add(item);
+            this.Count++;
+            return true;
         }
 
         public bool Remove(T item)

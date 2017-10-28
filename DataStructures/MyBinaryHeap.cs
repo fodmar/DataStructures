@@ -129,7 +129,7 @@ namespace DataStructures
             while (higherIndex != index);
         }
 
-        public void Add(T item)
+        public bool Add(T item)
         {
             int childIndex = this.Count;
             this.array.Add(item);
@@ -143,6 +143,8 @@ namespace DataStructures
                 childIndex = parentIndex;
                 parentIndex = this.Parent(childIndex);
             }
+
+            return true;
         }
 
         public bool Remove(T item)

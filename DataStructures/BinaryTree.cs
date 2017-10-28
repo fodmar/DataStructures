@@ -47,14 +47,14 @@ namespace DataStructures
 
         public int Count { get; private set; }
 
-        public virtual void Add(T item)
+        public virtual bool Add(T item)
         {
             this.Count++;
 
             if (this.root == null)
             {
                 this.root = this.CreateNode(item);
-                return;
+                return true;
             }
 
             TreeNode<T> parent = null;
@@ -85,6 +85,8 @@ namespace DataStructures
             {
                 parent.Left = this.CreateNode(item, parent);
             }
+
+            return true;
         }
 
         public bool Remove(T item)
