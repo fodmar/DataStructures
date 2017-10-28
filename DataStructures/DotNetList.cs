@@ -18,6 +18,7 @@ namespace DataStructures
 
         public bool Add(T item)
         {
+            base.Add(item);
             return true;
         }
 
