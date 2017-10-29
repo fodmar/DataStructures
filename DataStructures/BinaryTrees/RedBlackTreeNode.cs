@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
-namespace DataStructures
+namespace DataStructures.BinaryTrees
 {
-    public enum NodeColor
-    {
-        Red = 0,
-        Black = 1
-    }
-
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class RedBlackTreeNode<T> : TreeNode<T>
     {
-        public static RedBlackTreeNode<T> Guard = new RedBlackTreeNode<T>();
+        private static RedBlackTreeNode<T> Guard = new RedBlackTreeNode<T>();
         private readonly bool isGuard;
 
         private RedBlackTreeNode() : base(default(T))
@@ -31,15 +22,24 @@ namespace DataStructures
         {
         }
 
-        public RedBlackTreeNode(T item, TreeNode<T> parent) : base(item, (RedBlackTreeNode<T>)parent)
-        {
-        }
-
         public NodeColor Color { get; set; }
 
         public RedBlackTreeNode<T> rbParent { get { return this.Parent as RedBlackTreeNode<T> ?? Guard; } }
         public RedBlackTreeNode<T> rbRight { get { return this.Right as RedBlackTreeNode<T> ?? Guard; } }
         public RedBlackTreeNode<T> rbLeft { get { return this.Left as RedBlackTreeNode<T> ?? Guard; } }
         public RedBlackTreeNode<T> rbUncle { get { return this.Uncle as RedBlackTreeNode<T> ?? Guard; } }
+
+        private string DebuggerDisplay
+        {
+            get
+            {
+                if (this.isGuard)
+                {
+                    return "Guard";
+                }
+
+                return string.Format("{0} - {1}", this.Color, this.Value);
+            }
+        }
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
-namespace DataStructures
+namespace DataStructures.BinaryTrees
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class TreeNode<T>
     {
         public TreeNode(T item)
@@ -51,6 +48,14 @@ namespace DataStructures
                 int left = this.Left == null ? 0 : 1;
                 int right = this.Right == null ? 0 : 1;
                 return left + right;
+            }
+        }
+
+        private string DebuggerDisplay
+        {
+            get
+            {
+                return this.Value.ToString();
             }
         }
     }
